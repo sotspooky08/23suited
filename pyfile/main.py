@@ -26,7 +26,7 @@ class card:
         self.card_rank = self.assign_rank(rank)
         self.card_house = pg.image
         
-        self.card_show = True
+        self.card_show = False
         self.pos = (0,0)
         self.properties = [self.pos]
 
@@ -71,9 +71,10 @@ def load_card_stack(stack):
     return stack
 
 run = True
-blit_stack = {card(1,'spade'):(0,0)}
-card_stack = []
+blit_stack = []
 init_blitstack = False
+
+load_card_stack(blit_stack)
 
 while run:
     screen.fill((0,0,0))
@@ -89,19 +90,15 @@ while run:
                 else:
                     pg.display.set_mode((960,540), pg.RESIZABLE)
             if event.key == pg.K_LCTRL:
-                load_card_stack(card_stack)
                 init_blitstack = not init_blitstack
             if event.key == pg.K_LSHIFT:
-                blit_stack[card_stack[0]].flip()
-                print(card_stack[0].card_show)
-    xoffset = 0
+                blit_stack[0].flip()
+                print(blit_stack[0].card_show)
     
-    for cards in card_stack:
-        ### blit_stack.update({cards:(xoffset,0)})
-        
-        xoffset+=80
+    
+
     if init_blitstack:
-        for key,value in blit_stack.items():
-            key.blitcard(value)
+        for key in blit_stack:
+            key.blitcard(key.pos)
     pg.display.update()
 pg.quit()
